@@ -392,7 +392,6 @@ namespace GeometryTest
             }
         }
 
-
         public void GoToMainMenu()
         {
             Console.Write(Messages.RETURN_TO_MAIN_MENU);
