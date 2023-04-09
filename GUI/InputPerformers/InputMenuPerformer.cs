@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics.CodeAnalysis;
 
-namespace GeometryShapes
+namespace GeometryTest
 {
     public static class InputMenuPerformer
     {

@@ -1,19 +1,16 @@
-﻿using GeometryShapes.Shapes;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json.Converters;
 using JsonConverter = Newtonsoft.Json.JsonConverter;
 
-namespace GeometryShapes
+namespace GeometryTest
 {
     public class Circle : Shape
     {
         [JsonProperty(Order = 2)]
-        [Newtonsoft.Json.JsonConverter(typeof(RoundConverter), 2)]
         public double Radius { get; private set; }
 
         [JsonProperty(Order = 3)]
-        [Newtonsoft.Json.JsonConverter(typeof(RoundConverter), 2)]
         public double Perimeter { get { return CalculatePerimeter(); } }
 
         private const double PI = 3.14;
@@ -37,7 +34,7 @@ namespace GeometryShapes
 
         public override Shape Transform() => new Square(Radius);
 
- 
+
         public override string ToString()
         {
             return $" {Enum.GetName(typeof(ShapeType), ShapeType)}, " +

@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace GeometryShapes
+namespace GeometryTest
 {
     public class ConsoleSettings
     {

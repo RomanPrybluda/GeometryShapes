@@ -1,11 +1,10 @@
-﻿using GeometryShapes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GeometryShapes
+namespace GeometryTest
 {
     public class ConsoleConfigurator
     {

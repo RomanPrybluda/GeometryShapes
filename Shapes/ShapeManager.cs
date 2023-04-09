@@ -1,71 +1,67 @@
-﻿using GeometryShapes.Shapes;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Converters;
+using GeometryTest;
 
 
-namespace GeometryShapes
+
+namespace GeometryTest
 {
     public class ShapeManager
     {
-
         private List<Shape> _shapes = new List<Shape>();
-        private IFileManager _fileManager;
+        public IFileManager FileManager { get; }
 
         public ShapeManager(IFileManager fileManager)
         {
-            _fileManager = fileManager;
-
-            Load();
+            FileManager = fileManager;
         }
 
         public void AddTriangle(double triangleSide1, double triangleSide2, double triangleSide3)
         {
             _shapes.Add(new Triangle(triangleSide1, triangleSide2, triangleSide3));
-            Save();
         }
 
         public void AddRectangle(double rectangleWidth, double rectangleHeight)
         {
             _shapes.Add(new Rectangle(rectangleWidth, rectangleHeight));
-            Save();
         }
 
         public void AddSquare(double squareSide)
         {
             _shapes.Add(new Square(squareSide));
-            Save();
         }
 
         public void AddCircle(double circleRadius)
         {
             _shapes.Add(new Circle(circleRadius));
-            Save();
         }
 
         public void DeleteShapeByType(ShapeType shapeType)
         {
             _shapes.RemoveAll(x => x.ShapeType == shapeType);
-            Save();
         }
 
         public void TransformShapes()
         {
             for (int i = 0; i < _shapes.Count; i++)
                 _shapes[i] = _shapes[i].Transform();
-
-            Save();
         }
 
-        public void Load(string fileName = "") => _shapes = _fileManager.Load(fileName);
-        public void Save(string fileName = "") => _fileManager.Save(_shapes, fileName);
+        public void Load(string fileName, bool fromScratch)
+        {
+            if (fromScratch)
+                _shapes.Clear();
+
+            var loadedShapes = FileManager.Load(fileName);
+            _shapes.AddRange(loadedShapes);
+        }
+        public void Save(string fileName) => FileManager.Save(_shapes, fileName);
 
         public IEnumerable<Shape> GetShapes()
         {
             foreach (var item in _shapes)
                 yield return item;
         }
-
     }
-
 }

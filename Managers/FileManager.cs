@@ -1,47 +1,39 @@
-﻿using GeometryShapes.Shapes;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Converters;
+using GeometryTest;
+using GeometryTest;
 
-
-namespace GeometryShapes
+namespace GeometryTest
 {
     public class FileManager : IFileManager
     {
-        private string _fileName;
         private string _folderName;
         private string _fileExtension;
         private string _fullFolderPath;
-        
-        public FileManager(string fileName = "GeometryTest", string folderName = "GeometryTest", string fileExtension = ".json")
+
+        public FileManager(string folderName = "GeometryTest", string fileExtension = ".json")
         {
-            ValidateNames(new[] { fileName, folderName, fileExtension });
+            ValidateNames(new[] { folderName, fileExtension });
 
             _fileExtension = fileExtension;
-            _fileName = fileName + fileExtension;
             _folderName = folderName;
 
             _fullFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), _folderName);
 
             if (!Directory.Exists(_fullFolderPath))
                 Directory.CreateDirectory(_fullFolderPath);
-
-            var filePath = Path.Combine(_fullFolderPath, _fileName);
-
-            //if (!File.Exists(filePath))
-            //    File.Create(filePath).Close();
-
         }
 
-        public void Save(List<Shape> shapes, string fileName = "")
+        public void Save(List<Shape> shapes, string fileName)
         {
             if (!string.IsNullOrEmpty(fileName))
             {
                 ValidateNames(new[] { fileName });
-                _fileName = fileName + _fileExtension;
+                fileName += _fileExtension;
             }
 
-            var filePath = Path.Combine(_fullFolderPath, _fileName);
+            var filePath = Path.Combine(_fullFolderPath, fileName);
             var json = Serializer.Serialize(shapes);
 
             using var sw = new StreamWriter(filePath);
@@ -49,29 +41,30 @@ namespace GeometryShapes
             {
                 sw.Write(json);
             }
-            catch (Exception e) 
+            catch (Exception e)
             {
-                throw new FileLoadException(Messages.SAVE_FALSE, e);
+                throw new FileLoadException(Messages.SAVE_FALSE + fileName + e.Message);
             }
         }
 
-        public List<Shape> Load(string fileName = "")
+        public List<Shape> Load(string fileName)
         {
             if (!string.IsNullOrEmpty(fileName))
             {
                 ValidateNames(new[] { fileName });
-                _fileName = fileName + _fileExtension;
+                fileName += _fileExtension;
             }
 
-            var filePath = Path.Combine(_fullFolderPath, _fileName);
+            var filePath = Path.Combine(_fullFolderPath, fileName);
             string json = "";
+
             try
             {
                 json = File.ReadAllText(filePath);
             }
-            catch (Exception e )
+            catch (Exception e)
             {
-                throw new FileLoadException(Messages.UPLOAD_FALSE, e);
+                throw new FileLoadException(Messages.UPLOAD_FALSE + e.Message);
             }
 
             var shapes = Serializer.DeSerialize(json);
@@ -86,6 +79,12 @@ namespace GeometryShapes
                 if (Path.GetInvalidFileNameChars().Any(name.Contains))
                     throw new ArgumentException("Invalid symbol!");
             }
+        }
+
+        public bool CheckExists(string fileName)
+        {
+            var filePath = Path.Combine(_fullFolderPath, fileName + _fileExtension);
+            return File.Exists(filePath);
         }
 
     }

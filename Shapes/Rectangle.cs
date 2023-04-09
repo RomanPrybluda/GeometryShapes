@@ -1,21 +1,18 @@
-﻿using GeometryShapes.Shapes;
+﻿using GeometryTest;  
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace GeometryShapes
+namespace GeometryTest
 {
     public class Rectangle : Shape
     {
         [JsonProperty(Order = 2)]
-        [JsonConverter(typeof(RoundConverter), 2)]
         public double RectangleSide1 { get; private set; }
 
         [JsonProperty(Order = 3)]
-        [JsonConverter(typeof(RoundConverter), 2)]
         public double RectangleSide2 { get; private set; }
 
         [JsonProperty(Order = 4)]
-        [JsonConverter(typeof(RoundConverter),2)]
         public double Perimeter { get { return CalculatePerimeter(); } }
 
         public Rectangle(double rectangleSide1, double rectangleSide2) : base(ShapeType.Rectangle)
@@ -28,13 +25,13 @@ namespace GeometryShapes
 
             if (double.IsNaN(rectangleSide1) || double.IsNaN(rectangleSide2))
                 throw new ArgumentException(" Value for side a causes overflow.");
-            
+
             if (double.IsInfinity(rectangleSide1) || double.IsInfinity(rectangleSide2))
                 throw new ArgumentException(" Value for side a causes overflow.");
-                        
+
             RectangleSide1 = rectangleSide1;
             RectangleSide2 = rectangleSide2;
-                      
+
         }
 
         protected override double CalculatePerimeter() => 2 * (RectangleSide1 + RectangleSide2);

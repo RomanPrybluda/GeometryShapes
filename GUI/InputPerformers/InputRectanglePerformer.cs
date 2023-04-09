@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GeometryShapes
+namespace GeometryTest
 {
     public class InputRectanglePerformer
     {
 
         public (double, double) PerformRectangleInput()
-        {            
+        {
             double rectangleSide1, rectangleSide2;
 
             Console.Write(Messages.INPUT_RECTANGLE_FIRST_SIDE);

@@ -1,15 +1,12 @@
-﻿using GeometryShapes.GUI.InputPerformers;
-using GeometryShapes.Shapes;
+﻿using GeometryTest;
 using System;
 
 
-namespace GeometryShapes
+namespace GeometryTest
 {
     public class MenuManager
     {
-
         private ShapeManager _shapeManager;
-
         public MenuManager(ShapeManager shapeManager)
         {
             _shapeManager = shapeManager;
@@ -25,7 +22,6 @@ namespace GeometryShapes
                 Console.WriteLine(MenuItems.MAIN_MENU);
 
                 var inputMainMenu = InputMenuPerformer.PerformMainMenuInput();
-
                 Console.Clear();
 
                 switch (inputMainMenu) // Main menu
@@ -194,8 +190,17 @@ namespace GeometryShapes
 
                             if (askToTransform.ToLower() == "y")
                             {
-                                _shapeManager.TransformShapes();
 
+                                try
+                                {
+                                    _shapeManager.TransformShapes();
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine(Messages.TRANSFORMATION_FALSE + " " + ex.Message);
+                                }
+
+                                Console.Write(Messages.TRANSFORMATION_COMPLITE);
                                 GoToMainMenu();
                                 break;
                             }
@@ -209,33 +214,18 @@ namespace GeometryShapes
                         {
                             Console.Write(MenuItems.TOP_SAVE);
 
-                            //try
-                            //{
-                            //    _shapeManager.Save();
-                            //}
-                            //catch (Exception)
-                            //{
-                            //    Console.WriteLine(Messages.SAVE_FALSE);
-                            //}
-
                             bool isOverwrite = false;
-                            string fileName, filePath;
-
+                            string fileNameInput;
 
                             do
                             {
                                 Console.Write(Messages.INPUT_FILE_NAME);
-                                fileName = Console.ReadLine();
+                                fileNameInput = Console.ReadLine();
 
-                                _shapeManager.Save(fileName);
-
-                                //fileName = ValidatorFileName.GetValidFileName();
-                                //filePath = BuildFilePath(fileName);
-
-                                if (File.Exists(filePath))
+                                if (_shapeManager.FileManager.CheckExists(fileNameInput))
                                 {
                                     Console.ForegroundColor = ConsoleColor.DarkYellow;
-                                    Console.Write($"\n File {fileName} already exists. Overwrite this file (y/n) :");
+                                    Console.Write($"\n File \"{fileNameInput}.json\" already exists. Overwrite this file (y/n): ");
                                     Console.ForegroundColor = ConsoleColor.White;
 
                                     string askToOverwriteFile = Console.ReadLine();
@@ -247,9 +237,9 @@ namespace GeometryShapes
                                     else
                                     {
                                         isOverwrite = false;
+                                        continue;
                                     }
                                 }
-
                                 else
                                 {
                                     isOverwrite = true;
@@ -259,20 +249,14 @@ namespace GeometryShapes
 
                             try
                             {
-                                using (StreamWriter sw = new StreamWriter(filePath))
-                                {
-                                    string json = dm.GetShapesAsJson();
-                                    sw.Write(json);
-                                }
-
-                                Console.WriteLine(Messages.SAVE_SUCSESS);
+                                _shapeManager.Save(fileNameInput);
                             }
-
                             catch (Exception ex)
                             {
-                                Console.WriteLine(Messages.SAVE_FALSE + fileName + ex.Message);
+                                Console.WriteLine(Messages.SAVE_FALSE + fileNameInput + ex.Message);
                             }
 
+                            Console.WriteLine(Messages.SAVE_SUCSESS);
                             GoToMainMenu();
                             break;
                         }
@@ -281,8 +265,41 @@ namespace GeometryShapes
                         {
                             Console.Write(MenuItems.TOP_UPLOAD);
 
-                            _shapeManager.Load();
+                            bool isOverwrite = false;
+                            string fileNameInput;
 
+                            do
+                            {
+                                Console.Write(Messages.INPUT_FILE_NAME);
+                                fileNameInput = Console.ReadLine();
+
+                                if (!_shapeManager.FileManager.CheckExists(fileNameInput))
+                                {
+                                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                                    
+                                    Console.Write($"\n File \"{fileNameInput}.json\" does not exist.");
+                                    
+                                    Console.WriteLine(Messages.INVALID_INPUT_FILE_NAME);
+                                    Console.ForegroundColor = ConsoleColor.White;
+                                }
+
+                                else
+                                {
+                                    break;
+                                }
+
+                            } while (true);
+
+                            try
+                            {
+                                _shapeManager.FileManager.Load(fileNameInput);
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(Messages.UPLOAD_FALSE + "\"" + fileNameInput + ".json\" ." + ex.Message);
+                            }
+
+                            Console.WriteLine(Messages.UPLOAD_SUCSESS);
                             GoToMainMenu();
                             break;
                         }
@@ -326,21 +343,16 @@ namespace GeometryShapes
         public void ExitFromApp()
         {
             Console.Clear();
-
             Console.Write(MenuItems.TOP_EXIT);
-
             Console.Write(Messages.ASK_EXIT_FROM_APP);
 
             var exit = Console.ReadLine();
-
             if (exit.ToLower() == "y")
             {
                 Console.Write(Messages.GOODBAY);
                 Thread.Sleep(1200);
                 Environment.Exit(0);
             }
-
         }
-
     }
 }

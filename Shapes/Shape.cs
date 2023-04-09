@@ -3,8 +3,8 @@ using Newtonsoft.Json.Converters;
 using System;
 
 
-namespace GeometryShapes.Shapes
-{ 
+namespace GeometryTest
+{
 
     public abstract class Shape
     {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace GeometryShapes.Shapes
+namespace GeometryTest
 {
     public enum ShapeType
     {

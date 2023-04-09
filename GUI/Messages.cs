@@ -1,8 +1,9 @@
 ﻿using System;
+using GeometryTest;
 
 
-namespace GeometryShapes
-{
+namespace GeometryTest
+{ 
     public static class Messages
     {
 
@@ -25,14 +26,14 @@ namespace GeometryShapes
         public const string INPUT_RECTANGLE_SECOND_SIDE = "\n Input height (mm): ";
 
         public const string INPUT_NUMBER = "\n Input Error. Enter a number greater than zero.";
-        
+
         // INVALID MASSAGE
 
         public const string INVALID_INPUT_MAIN_MENU_ITEM = "\n Invalid input, menu item (1-2-3-4-5-6-7).";
 
         public const string INVALID_INPUT_SUB_MENU_ITEM = "\n Invalid input, menu item (1-2-3-4-5).";
 
-        public const string INVALID_INPUT_FILE_NAME = "\n Invalid file name. Please try again";
+        public const string INVALID_INPUT_FILE_NAME = "\n Invalid file name. Please try again.";
 
         // ADDED MASSAGE
 
@@ -54,7 +55,7 @@ namespace GeometryShapes
 
         // TRANSFORM MASSAGE
 
-        public const string TRANSFORMATION_DESCRIPTION = 
+        public const string TRANSFORMATION_DESCRIPTION =
             "\n The transformation of the figures will be done as follows:" +
             "\n   - triangle to rectangle;" +
             "\n   - rectangle to triangle;" +
@@ -64,6 +65,8 @@ namespace GeometryShapes
         public const string TRANSFORMATION_PERFORM = "\n Do shape transformation? (y/n) :";
 
         public const string TRANSFORMATION_COMPLITE = "\n Transformation completed.\n";
+
+        public const string TRANSFORMATION_FALSE = "\n Shape transformation failed.\n";
 
         // SAVE MASSAGE
 
@@ -77,19 +80,19 @@ namespace GeometryShapes
 
         // UPLOAD MASSAGE
 
-        public const string UPLOAD_SUCSESS = "\n All shapes have been uploaded\n";
+        public const string UPLOAD_SUCSESS = "\n All shapes have been uploaded.\n";
 
         public const string UPLOAD_FALSE = "\n Could not upload shapes from file: ";
 
         // RETURN TO MAIN MENU
 
-        public const string RETURN_TO_MAIN_MENU = "\n For return to Main menu press ENTER ";
+        public const string RETURN_TO_MAIN_MENU = "\n For return to Main menu press ENTER: ";
 
         // EXIT MASSAGE
 
         public const string ASK_EXIT_FROM_APP = "\n Exit from application? (y/n) :";
 
         public const string GOODBAY = "\n" + " ------------ Good Bay ------------ ";
-                                           
+
     }
 }

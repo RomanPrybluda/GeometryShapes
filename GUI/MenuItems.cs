@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace GeometryShapes
+namespace GeometryTest
 {
     public static class MenuItems
     {
@@ -11,7 +11,7 @@ namespace GeometryShapes
             " 1. Add a new shape.\n" +
             " 2. View all shapes.\n" +
             " 3. Delete shapes.\n" +
-            " 4. Perform the transformation.\n" + 
+            " 4. Perform the transformation.\n" +
             " 5. Save shapes.\n" +
             " 6. Upload shapes.\n" +
             " 7. Exit.";
@@ -55,6 +55,6 @@ namespace GeometryShapes
 
         public const string TOP_EXIT =
             "\n --- 7. Exit ---------------------- \n";
-        
+
     }
 }

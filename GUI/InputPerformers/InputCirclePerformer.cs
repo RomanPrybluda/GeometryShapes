@@ -6,8 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace GeometryShapes.GUI.InputPerformers
-{
+namespace GeometryTest
+{ 
     public class InputCirclePerformer
     {
 

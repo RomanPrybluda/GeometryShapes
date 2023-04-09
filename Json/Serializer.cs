@@ -1,5 +1,4 @@
-﻿using GeometryShapes.Shapes;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -7,8 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Converters;
+using GeometryTest;
 
-namespace GeometryShapes
+namespace GeometryTest
 {
     public static class Serializer
     {
@@ -17,9 +17,6 @@ namespace GeometryShapes
             var serializerSettings = new JsonSerializerSettings();
             serializerSettings.NullValueHandling = NullValueHandling.Ignore;
             serializerSettings.Converters.Add(new StringEnumConverter());
-
-            RoundConverter roundConverter = new RoundConverter(2);
-            serializerSettings.Converters.Add(roundConverter);
 
             return JsonConvert.SerializeObject(shapes, Formatting.Indented, serializerSettings);
         }

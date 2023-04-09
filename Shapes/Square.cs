@@ -1,19 +1,17 @@
-﻿using GeometryShapes.Shapes;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json.Converters;
 using JsonConverter = Newtonsoft.Json.JsonConverter;
+using  GeometryTest;
 
-namespace GeometryShapes
+namespace GeometryTest
 {
     public class Square : Shape
     {
         [JsonProperty(Order = 2)]
-        [Newtonsoft.Json.JsonConverter(typeof(RoundConverter), 2)]
         public double Side { get; private set; }
 
         [JsonProperty(Order = 3)]
-        [Newtonsoft.Json.JsonConverter(typeof(RoundConverter), 2)]
         public double Perimeter { get { return CalculatePerimeter(); } }
 
         public Square(double side) : base(ShapeType.Square)

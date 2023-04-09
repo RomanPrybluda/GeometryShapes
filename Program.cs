@@ -1,7 +1,5 @@
-﻿using GeometryShapes;
+﻿using GeometryTest;
 
+new ConsoleConfigurator(new ConsoleSettings());
 
-new ConsoleConfigurator(new ConsoleSettings()); 
-
-
-var menuManager =new MenuManager(new ShapeManager(new FileManager()));
+var menuManager = new MenuManager(new ShapeManager(new FileManager()));
