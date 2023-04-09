@@ -124,14 +124,28 @@ namespace GeometryTest
                             switch (inputSubMenu) // Delete type shape
                             {
 
-
                                 case 1: // Delete Triangle
                                     {
                                         Console.WriteLine(MenuItems.TOP_DELETE);
+                                        
+                                        if (!_shapeManager.CheckIfShapesExist(ShapeType.Triangle))
+                                        {
+                                            Console.WriteLine(" Triangles are not in the list of shapes. Choose another type of figure.");
+                                        }
+                                        else
+                                        {
+                                            try
+                                            {
+                                                _shapeManager.DeleteShapeByType(ShapeType.Triangle);
+                                                Console.Write(Messages.DEL_SHAPE_TRIANGLE);
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                Console.WriteLine(Messages.DEL_SHAPE_FALSE + " " + ex.Message);
+                                                break;
+                                            }
+                                        }
 
-                                        _shapeManager.DeleteShapeByType(ShapeType.Triangle);
-
-                                        Console.Write(Messages.DEL_SHAPE_TRIANGLE);
                                         GoToMainMenu();
                                         break;
                                     }
@@ -140,9 +154,24 @@ namespace GeometryTest
                                     {
                                         Console.WriteLine(MenuItems.TOP_DELETE);
 
-                                        _shapeManager.DeleteShapeByType(ShapeType.Rectangle);
-
-                                        Console.Write(Messages.DEL_SHAPE_RECATNGLE);
+                                        if (!_shapeManager.CheckIfShapesExist(ShapeType.Rectangle))
+                                        {
+                                            Console.WriteLine(" Rectangles are not in the list of shapes. Choose another type of figure.");
+                                        }
+                                        else
+                                        {
+                                            try
+                                            {
+                                                _shapeManager.DeleteShapeByType(ShapeType.Rectangle);
+                                                Console.Write(Messages.DEL_SHAPE_RECATNGLE);
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                Console.WriteLine(Messages.DEL_SHAPE_FALSE + " " + ex.Message);
+                                                break;
+                                            }
+                                        }
+                                                                                
                                         GoToMainMenu();
                                         break;
                                     }
@@ -151,20 +180,50 @@ namespace GeometryTest
                                     {
                                         Console.WriteLine(MenuItems.TOP_DELETE);
 
-                                        _shapeManager.DeleteShapeByType(ShapeType.Square);
-
-                                        Console.Write(Messages.DEL_SHAPE_SQURE);
+                                        if (!_shapeManager.CheckIfShapesExist(ShapeType.Square))
+                                        {
+                                            Console.WriteLine(" Squres are not in the list of shapes. Choose another type of figure.");
+                                        }
+                                        else
+                                        {
+                                            try
+                                            {
+                                                _shapeManager.DeleteShapeByType(ShapeType.Square);
+                                                Console.Write(Messages.DEL_SHAPE_SQURE);
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                Console.WriteLine(Messages.DEL_SHAPE_FALSE + " " + ex.Message);
+                                                break;
+                                            }
+                                        }
+                                                                                
                                         GoToMainMenu();
                                         break;
                                     }
 
-                                case 4: // Delete Cicle
+                                case 4: // Delete Circle
                                     {
                                         Console.WriteLine(MenuItems.TOP_DELETE);
 
-                                        _shapeManager.DeleteShapeByType(ShapeType.Circle);
+                                        if (!_shapeManager.CheckIfShapesExist(ShapeType.Circle))
+                                        {
+                                            Console.WriteLine(" Circles are not in the list of shapes. Choose another type of figure.");
+                                        }
+                                        else
+                                        {
+                                            try
+                                            {
+                                                _shapeManager.DeleteShapeByType(ShapeType.Circle);
+                                                Console.Write(Messages.DEL_SHAPE_CIRCLE);
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                Console.WriteLine(Messages.DEL_SHAPE_FALSE + " " + ex.Message);
+                                                break;
+                                            }
+                                        }
 
-                                        Console.Write(Messages.DEL_SHAPE_CIRCLE);
                                         GoToMainMenu();
                                         break;
                                     }
@@ -276,9 +335,9 @@ namespace GeometryTest
                                 if (!_shapeManager.FileManager.CheckExists(fileNameInput))
                                 {
                                     Console.ForegroundColor = ConsoleColor.DarkYellow;
-                                    
+
                                     Console.Write($"\n File \"{fileNameInput}.json\" does not exist.");
-                                    
+
                                     Console.WriteLine(Messages.INVALID_INPUT_FILE_NAME);
                                     Console.ForegroundColor = ConsoleColor.White;
                                 }
@@ -292,7 +351,7 @@ namespace GeometryTest
 
                             try
                             {
-                                _shapeManager.FileManager.Load(fileNameInput);
+                                _shapeManager.Load(fileNameInput);
                             }
                             catch (Exception ex)
                             {
@@ -332,6 +391,7 @@ namespace GeometryTest
                 Console.WriteLine(lastShape);
             }
         }
+
 
         public void GoToMainMenu()
         {

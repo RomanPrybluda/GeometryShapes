@@ -48,20 +48,35 @@ namespace GeometryTest
                 _shapes[i] = _shapes[i].Transform();
         }
 
-        public void Load(string fileName, bool fromScratch)
+        public void Load(string fileName)
         {
-            if (fromScratch)
-                _shapes.Clear();
-
             var loadedShapes = FileManager.Load(fileName);
             _shapes.AddRange(loadedShapes);
         }
+
         public void Save(string fileName) => FileManager.Save(_shapes, fileName);
 
         public IEnumerable<Shape> GetShapes()
         {
             foreach (var item in _shapes)
                 yield return item;
+        }
+
+        public bool CheckIfShapesExist(ShapeType shapeType)
+        {
+            switch (shapeType)
+            {
+                case ShapeType.Circle:
+                    return _shapes.Any(s => s is Circle);
+                case ShapeType.Triangle:
+                    return _shapes.Any(s => s is Triangle);
+                case ShapeType.Rectangle:
+                    return _shapes.Any(s => s is Rectangle);
+                case ShapeType.Square:
+                    return _shapes.Any(s => s is Square);
+                default:
+                    return false;
+            }
         }
     }
 }

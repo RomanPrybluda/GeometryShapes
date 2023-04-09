@@ -53,6 +53,9 @@ namespace GeometryTest
 
         public const string DEL_SHAPE_CIRCLE = "\n The all shapes with type Cicle were deleted.\n";
 
+        public const string DEL_SHAPE_FALSE = "\n The shapes of the selected type were not deleted. " +
+                                              "\n Perhaps they are not on the list.\n";
+
         // TRANSFORM MASSAGE
 
         public const string TRANSFORMATION_DESCRIPTION =
