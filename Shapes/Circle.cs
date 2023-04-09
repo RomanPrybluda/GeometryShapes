@@ -1,45 +1,48 @@
-﻿using GeometryTest.Shapes;
+﻿using GeometryShapes.Shapes;
+using Newtonsoft.Json;
+using System.Text.Json.Serialization;
+using Newtonsoft.Json.Converters;
+using JsonConverter = Newtonsoft.Json.JsonConverter;
 
-
-namespace GeometryTest
+namespace GeometryShapes
 {
     public class Circle : Shape
     {
-
-        public override string ShapeType { get; protected set; }
-                        
-        public override double Perimeter { get; set; }
-
+        [JsonProperty(Order = 2)]
+        [Newtonsoft.Json.JsonConverter(typeof(RoundConverter), 2)]
         public double Radius { get; private set; }
 
-        public const double PI = 3.14;
+        [JsonProperty(Order = 3)]
+        [Newtonsoft.Json.JsonConverter(typeof(RoundConverter), 2)]
+        public double Perimeter { get { return CalculatePerimeter(); } }
 
-        public Circle(double radius)
+        private const double PI = 3.14;
+
+        public Circle(double radius) : base(ShapeType.Circle)
         {
-
             if (radius <= 0)
-                throw new ArgumentOutOfRangeException(nameof(radius), $"Square side must be more than 0.");
+                throw new ArgumentOutOfRangeException(nameof(radius), $"Circle radius must be more than 0.");
 
             if (double.IsNaN(radius))
-                throw new ArgumentException(" Value for side a causes overflow.");
+                throw new ArgumentException(" Value for radius a causes overflow.");
 
             if (double.IsInfinity(radius))
-                throw new ArgumentException(" Value for side a causes overflow.");
+                throw new ArgumentException(" Value for radius a causes overflow.");
 
             Radius = radius;
-            ShapeType = "Circle";
-
-            CalculatePerimeter();
         }
 
-        public override void CalculatePerimeter()
-        {
-            Perimeter = 2 * PI * Radius;
-        }
+        protected override double CalculatePerimeter() => 2 * PI * Radius;
 
+
+        public override Shape Transform() => new Square(Radius);
+
+ 
         public override string ToString()
         {
-            return $" {ShapeType}, radius = {Radius:F2} mm, perimeter = {Perimeter:F2} mm.";
+            return $" {Enum.GetName(typeof(ShapeType), ShapeType)}, " +
+                    $"radius = {Radius:F2} mm, " +
+                    $"perimeter = {CalculatePerimeter():F2} mm.";
         }
 
     }

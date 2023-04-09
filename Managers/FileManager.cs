@@ -1,144 +1,93 @@
-﻿using GeometryTest.Shapes;
+﻿using GeometryShapes.Shapes;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Converters;
 
 
-namespace GeometryTest
+namespace GeometryShapes
 {
-    public class FileManager
+    public class FileManager : IFileManager
     {
-
-        private const string FOLDER_NAME = "GeometryShapes";
-
-        private const string FILE_EXTENSION = ".json";
-
-        public string FileFolderPath { get; set; }
-        public object jsonRead { get; private set; }
-
-        public FileManager()
-        {
-            string _fileFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), FOLDER_NAME);
-
-            FileFolderPath = _fileFolderPath;
-
-            FolderCreater();
-
-        }
-              
-
-        public string BuildFilePath(string fileName)
-        {
-            return Path.Combine(FileFolderPath, fileName + FILE_EXTENSION);
-        }
-
-
-        private void FolderCreater()
-        {
-            if (!Directory.Exists(FileFolderPath))
-            {
-                Directory.CreateDirectory(FileFolderPath);
-            }
-        }
-                        
-
-        public void SaveJsonToFile(DataManager dm)
-        {
-            
-            bool isOverwrite = false;
-            string filePath, fileName;
-
-
-            do
-            {
-                fileName = ValidatorFileName.GetValidFileName();
-                filePath = BuildFilePath(fileName);
-
-                if (File.Exists(filePath))
-                {
-                    Console.ForegroundColor = ConsoleColor.DarkYellow;
-                    Console.Write($"\n File {fileName} already exists. Overwrite this file (y/n) :");
-                    Console.ForegroundColor = ConsoleColor.White;
-
-                    string askToOverwriteFile = Console.ReadLine();
-
-                    if (askToOverwriteFile.ToLower() == "y")
-                    {
-                        isOverwrite = true;
-                    }
-                    else
-                    {
-                        isOverwrite = false;                        
-                    }
-                }
-
-                else
-                {
-                    isOverwrite = true;
-                }
-
-            } while (!isOverwrite);
-
-            try
-            {
-                using (StreamWriter sw = new StreamWriter(filePath))
-                {
-                    string json = dm.GetShapesAsJson();
-                    sw.Write(json);
-                }
-
-                Console.WriteLine(Massage.SAVE_SUCSESS);
-            }
-
-            catch (Exception ex)
-            {
-                Console.WriteLine(Massage.SAVE_FALSE + fileName + ex.Message);
-            }
-        }
-
-
-        public string ReadFile()
-        {
-            
-            string filePath;
-
-            do
-            {
-                Console.Write(Massage.INPUT_FILE_NAME);
-                string fileName = Console.ReadLine();
-
-                filePath = BuildFilePath(fileName);
-
-                if (!File.Exists(filePath))
-                {
-                    Console.WriteLine($" File {filePath} does not exist.");
-                    Console.ForegroundColor = ConsoleColor.Red;
-
-                    Console.WriteLine(" Please input valid file name.");
-                    Console.ForegroundColor = ConsoleColor.White;
-
-                }
-
-                else
-                {
-                    break;
-                }
-
-            } while (true);
-
-            try
-            {
-                string jsonRead = File.ReadAllText(filePath);
-                return jsonRead;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"\n Error reading file: {ex.Message}. ");
-                return null;
-            }
-
-        }
+        private string _fileName;
+        private string _folderName;
+        private string _fileExtension;
+        private string _fullFolderPath;
         
+        public FileManager(string fileName = "GeometryTest", string folderName = "GeometryTest", string fileExtension = ".json")
+        {
+            ValidateNames(new[] { fileName, folderName, fileExtension });
+
+            _fileExtension = fileExtension;
+            _fileName = fileName + fileExtension;
+            _folderName = folderName;
+
+            _fullFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), _folderName);
+
+            if (!Directory.Exists(_fullFolderPath))
+                Directory.CreateDirectory(_fullFolderPath);
+
+            var filePath = Path.Combine(_fullFolderPath, _fileName);
+
+            //if (!File.Exists(filePath))
+            //    File.Create(filePath).Close();
+
+        }
+
+        public void Save(List<Shape> shapes, string fileName = "")
+        {
+            if (!string.IsNullOrEmpty(fileName))
+            {
+                ValidateNames(new[] { fileName });
+                _fileName = fileName + _fileExtension;
+            }
+
+            var filePath = Path.Combine(_fullFolderPath, _fileName);
+            var json = Serializer.Serialize(shapes);
+
+            using var sw = new StreamWriter(filePath);
+            try
+            {
+                sw.Write(json);
+            }
+            catch (Exception e) 
+            {
+                throw new FileLoadException(Messages.SAVE_FALSE, e);
+            }
+        }
+
+        public List<Shape> Load(string fileName = "")
+        {
+            if (!string.IsNullOrEmpty(fileName))
+            {
+                ValidateNames(new[] { fileName });
+                _fileName = fileName + _fileExtension;
+            }
+
+            var filePath = Path.Combine(_fullFolderPath, _fileName);
+            string json = "";
+            try
+            {
+                json = File.ReadAllText(filePath);
+            }
+            catch (Exception e )
+            {
+                throw new FileLoadException(Messages.UPLOAD_FALSE, e);
+            }
+
+            var shapes = Serializer.DeSerialize(json);
+
+            return shapes;
+        }
+
+        private void ValidateNames(string[] names)
+        {
+            foreach (string name in names)
+            {
+                if (Path.GetInvalidFileNameChars().Any(name.Contains))
+                    throw new ArgumentException("Invalid symbol!");
+            }
+        }
+
     }
 
 }

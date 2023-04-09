@@ -1,15 +1,7 @@
-﻿using GeometryTest;
+﻿using GeometryShapes;
 
-WindowTuner.SetWinPror();
 
-var cui = new Cui();
+new ConsoleConfigurator(new ConsoleSettings()); 
 
-var fm = new FileManager();
-var dm = new DataManager(fm);
 
-var vTriangle = new ValidatorTriangle();
-var vRectangle = new ValidatorRectangle();
-var vSquare = new ValidatorSquare();
-var vCircle = new ValidatorCircle();
-
-cui.CuiApp(dm, fm, vTriangle, vRectangle, vSquare, vCircle);
+var menuManager =new MenuManager(new ShapeManager(new FileManager()));

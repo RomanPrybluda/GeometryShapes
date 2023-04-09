@@ -1,9 +1,9 @@
 ﻿using System;
 
 
-namespace GeometryTest
+namespace GeometryShapes
 {
-    public static class Menu
+    public static class MenuItems
     {
 
         public const string MAIN_MENU =
@@ -55,8 +55,6 @@ namespace GeometryTest
 
         public const string TOP_EXIT =
             "\n --- 7. Exit ---------------------- \n";
-
-        public const byte T = 3;
-
+        
     }
 }

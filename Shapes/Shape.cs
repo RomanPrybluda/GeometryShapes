@@ -1,16 +1,24 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
 
 
-namespace GeometryTest.Shapes
-{
+namespace GeometryShapes.Shapes
+{ 
+
     public abstract class Shape
     {
-        
-        public virtual string ShapeType { get; protected set; } 
+        public ShapeType ShapeType { get; protected set; }
 
-        public virtual double Perimeter { get; set; }
-                
-        public abstract void CalculatePerimeter();
+
+        public Shape(ShapeType shapeType)
+        {
+
+            ShapeType = shapeType;
+        }
+
+        protected abstract double CalculatePerimeter();
+        public abstract Shape Transform();
 
     }
 }

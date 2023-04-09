@@ -1,9 +1,9 @@
 ﻿using System;
 
 
-namespace GeometryTest
+namespace GeometryShapes
 {
-    public static class Massage
+    public static class Messages
     {
 
         // INPUT REQUEST
