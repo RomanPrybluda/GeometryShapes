@@ -306,16 +306,20 @@ namespace GeometryTest
 
                             } while (!isOverwrite);
 
+
                             try
                             {
                                 _shapeManager.Save(fileNameInput);
+                                Console.WriteLine(Messages.SAVE_SUCSESS);
                             }
                             catch (Exception ex)
                             {
-                                Console.WriteLine(Messages.SAVE_FALSE + fileNameInput + ex.Message);
+                                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                                Console.WriteLine(Messages.SAVE_FALSE + "\"" + fileNameInput + ".json\". " + ex.Message);
+                                Console.ForegroundColor = ConsoleColor.White;
                             }
 
-                            Console.WriteLine(Messages.SAVE_SUCSESS);
+
                             GoToMainMenu();
                             break;
                         }

@@ -41,7 +41,8 @@ namespace GeometryTest
 
         // VIEW MASSAGE
 
-        public const string VIEW_NOTHNG = "\n No saved data.\n";
+        public const string VIEW_NOTHNG = "\n Figures are not on the list." +
+                                          "\n\n Add new shapes or load from a JSON file.\n";
 
         // DELETE MASSAGE
 
@@ -75,7 +76,7 @@ namespace GeometryTest
 
         public const string INPUT_FILE_NAME = "\n Input file name: ";
 
-        public const string SAVE_SUCSESS = "\n Saving completed successfully\n";
+        public const string SAVE_SUCSESS = "\n Saving completed successfully.\n";
 
         public const string SAVE_ASK_OVERWRITE_FILE = "\n This file already exists. Over write file (y/n) :";
 
